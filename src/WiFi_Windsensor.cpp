@@ -511,7 +511,6 @@ void loop() {
          if(int(actconf.windSensor) == 1){
           client.println(sendMWV(1));  // Send NMEA telegrams
           client.println(sendVWR(1));
-          client.println(sendVPW(1));
           client.println(sendINF(1));
          }
         if(int(actconf.tempSensor) == 1){
@@ -539,7 +538,6 @@ void loop() {
         if(int(actconf.windSensor) == 1){
           client.println(sendMWV(1));  // Send NMEA telegrams
           client.println(sendVWR(1));
-          client.println(sendVPW(1));
           client.println(sendINF(1));
         }
         if(int(actconf.tempSensor) == 1){
@@ -565,7 +563,6 @@ void loop() {
       if(int(actconf.windSensor) == 1){
         sendMWV(1);  // Send NMEA telegrams
         sendVWR(1);
-        sendVPW(1);
         sendINF(1);
       }
       if(int(actconf.tempSensor) == 1){
@@ -586,7 +583,6 @@ void loop() {
       if(int(actconf.windSensor) == 1){
         sendMWV(1);  // Send NMEA telegrams
         sendVWR(1);
-        sendVPW(1);
         sendINF(1);
       }
       if(int(actconf.tempSensor) == 1){

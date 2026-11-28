@@ -9,12 +9,7 @@ String sendMWV(int sendmode){
   
   // Create NMEA string for wind speed $WIMWV,x.x,a,x.x,a,A*hh<CR><LF>
   NMEAWindSpeed = "WIMWV," + String(winddirection);
-  if(String(actconf.windType) == "R"){
-    NMEAWindSpeed +=  ",R,"; 
-  }
-  else{
-    NMEAWindSpeed +=  ",T,";
-  } 
+  NMEAWindSpeed += ",R,";
   if(String(actconf.speedUnit) == "kn"){
     NMEAWindSpeed +=  String(windspeed_kn);
     NMEAWindSpeed +=  ",N,A";
@@ -27,8 +22,14 @@ String sendMWV(int sendmode){
     NMEAWindSpeed +=  String(windspeed_kph);
     NMEAWindSpeed +=  ",K,A";
   }        
+  if(String(actconf.speedUnit) == "bft"){
+    NMEAWindSpeed += String(windspeed_kn);
+    NMEAWindSpeed += ",N,A";
+  }
   // Build CheckSum
   HexCheckSum = String(CheckSum(NMEAWindSpeed), HEX);
+  if(HexCheckSum.length() == 1) HexCheckSum = "0" + HexCheckSum;
+  HexCheckSum.toUpperCase();
   // Build complete NMEA string
   SendWindSpeed = "$" + NMEAWindSpeed;
   SendWindSpeed += "*";
@@ -62,6 +63,8 @@ String sendVWR(int sendmode){
   NMEAWindSpeed += ",K";
   // Build CheckSum
   HexCheckSum = String(CheckSum(NMEAWindSpeed), HEX);
+  if(HexCheckSum.length() == 1) HexCheckSum = "0" + HexCheckSum;
+  HexCheckSum.toUpperCase();
   // Build complete NMEA string
   SendWindSpeed = "$" + NMEAWindSpeed;
   SendWindSpeed += "*";
@@ -95,6 +98,8 @@ String sendVPW(int sendmode){
   NMEAWindSpeed += ",M";
   // Build CheckSum
   HexCheckSum = String(CheckSum(NMEAWindSpeed), HEX);
+  if(HexCheckSum.length() == 1) HexCheckSum = "0" + HexCheckSum;
+  HexCheckSum.toUpperCase();
   // Build complete NMEA string
   SendWindSpeed = "$" + NMEAWindSpeed;
   SendWindSpeed += "*";
@@ -129,6 +134,8 @@ String sendINF(int sendmode){
   NMEAWindSpeed +=  ",B,";
   // Build CheckSum
   HexCheckSum = String(CheckSum(NMEAWindSpeed), HEX);
+  if(HexCheckSum.length() == 1) HexCheckSum = "0" + HexCheckSum;
+  HexCheckSum.toUpperCase();
   // Build complete NMEA string
   SendWindSpeed = "$" + NMEAWindSpeed;
   SendWindSpeed += "*";
@@ -161,6 +168,8 @@ String sendWST(int sendmode){
   NMEASensorTemp += ",A";
   // Build CheckSum
   HexCheckSum = String(CheckSum(NMEASensorTemp), HEX);
+  if(HexCheckSum.length() == 1) HexCheckSum = "0" + HexCheckSum;
+  HexCheckSum.toUpperCase();
   // Build complete NMEA string
   SendSensorTemp = "$" + NMEASensorTemp;
   SendSensorTemp += "*";
@@ -169,6 +178,19 @@ String sendWST(int sendmode){
     Serial.println(SendSensorTemp);
   }
   
+  if(sendmode == 1){
+    float t = temperature;
+    if(String(actconf.tempUnit) != "C") t = (t - 32.0f) * 5.0f / 9.0f;
+    if(isfinite(t) && t >= -61.0f && t <= 119.0f){
+      String body = "WIMTA," + String(t, 2) + ",C";
+      String checksum = String(CheckSum(body), HEX);
+      if(checksum.length() == 1) checksum = "0" + checksum;
+      checksum.toUpperCase();
+      String sentence = "$" + body + "*" + checksum;
+      if(int(actconf.serverMode) == 1 || int(actconf.debug) >= 3) Serial.println(sentence);
+      SendSensorTemp += "\r\n" + sentence;
+    }
+  }
   return SendSensorTemp;
 }
 
@@ -204,6 +226,8 @@ String sendWSE(int sendmode){
   NMEAWSE +=  ",M,";
   // Build CheckSum
   HexCheckSum = String(CheckSum(NMEAWSE), HEX);
+  if(HexCheckSum.length() == 1) HexCheckSum = "0" + HexCheckSum;
+  HexCheckSum.toUpperCase();
   // Build complete NMEA string
   SendWSE = "$" + NMEAWSE;
   SendWSE += "*";
