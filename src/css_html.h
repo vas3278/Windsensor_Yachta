@@ -129,7 +129,8 @@ String CSS()
  redcontent += F("box-shadow:");
  redcontent += F("0px 1px 3px rgba(000,000,000,0.5),");
  redcontent += F("inset 0px 0px 2px rgba(245,12,12,1);");
- redcontent += F("text-shadow:");content +=F( "<td></td>");
+ redcontent += F("text-shadow:");
+  // The original stray content += "<td></td>" was overwritten by switch(style).
  redcontent += F("0px -1px 0px rgba(000,000,000,0.2),");
  redcontent += F("0px 1px 0px rgba(71,68,71,0.4);");
  redcontent += F("}");
