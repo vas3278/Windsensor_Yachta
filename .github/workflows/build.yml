@@ -1,0 +1,60 @@
+
+name: Build Windsensor Yachta
+
+on:
+  push:
+    branches:
+      - '1.23-compact'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Clean previous build
+        run: rm -rf .pio
+
+      - name: Build firmware
+        run: pio run -e d1_mini
+
+      - name: Prepare firmware
+        run: |
+          mkdir -p output
+          cp .pio/build/d1_mini/firmware.bin output/firmware.bin
+          cp output/firmware.bin output/firmware.wsb
+          sha256sum output/firmware.bin
+          SIZE=$(stat -c%s output/firmware.bin)
+          echo "Firmware size: $SIZE bytes"
+          echo "Firmware size: $SIZE bytes" >> "$GITHUB_STEP_SUMMARY"
+          echo "V1.20 size: 485024 bytes" >> "$GITHUB_STEP_SUMMARY"
+          echo "Difference: $((SIZE - 485024)) bytes" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windsensor-Yachta
+          path: output/
+
+      - name: Check firmware size
+        run: |
+          SIZE=$(stat -c%s output/firmware.bin)
+          if [ "$SIZE" -ge 485024 ]; then
+            echo "Firmware exceeds target size"
+            exit 1
+          fi
+          echo "Firmware size OK"
