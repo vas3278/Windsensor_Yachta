@@ -181,7 +181,7 @@ String sendWST(int sendmode){
   if(sendmode == 1){
     float t = temperature;
     if(String(actconf.tempUnit) != "C") t = (t - 32.0f) * 5.0f / 9.0f;
-    if(isfinite(t) && t >= -61.0f && t <= 119.0f){
+    if(t >= -61.0f && t <= 119.0f){
       String body = "WIMTA," + String(t, 2) + ",C";
       String checksum = String(CheckSum(body), HEX);
       if(checksum.length() == 1) checksum = "0" + checksum;
