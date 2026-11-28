@@ -100,16 +100,44 @@ httpServer.on("/favicon.ico", []() {
   httpServer.send(200, "image/svg+xml", content);
 });
 
+// Static web assets are generated as gzip byte arrays in the CI build.
+// All three CSS styles remain selectable; no decompression is needed on ESP8266.
 httpServer.on("/css", []() {
-  String content = CSS();
-   httpServer.sendHeader("Cache-Control", "no-cache");
-  httpServer.send(200, "text/css", content);
+  httpServer.sendHeader("Cache-Control", "no-cache");
+  httpServer.sendHeader("Content-Encoding", "gzip");
+  switch (style) {
+    case 0:
+      httpServer.send_P(200, "text/css", (PGM_P)compact_css_red_gz, sizeof(compact_css_red_gz));
+      break;
+    case 1:
+      httpServer.send_P(200, "text/css", (PGM_P)compact_css_black_gz, sizeof(compact_css_black_gz));
+      break;
+    default:
+      httpServer.send_P(200, "text/css", (PGM_P)compact_css_white_gz, sizeof(compact_css_white_gz));
+      break;
+  }
 });
 
 httpServer.on("/js", []() {
-  String content = JS();
   httpServer.sendHeader("Cache-Control", "no-cache");
-  httpServer.send(200, "text/javascript", content);
+  httpServer.sendHeader("Content-Encoding", "gzip");
+  httpServer.send_P(200, "text/javascript", (PGM_P)compact_js_gz, sizeof(compact_js_gz));
+});
+
+// The one-time transaction value must be provided separately so the MD5
+// library itself can be served as a static compressed resource.
+httpServer.on("/transaction.js", []() {
+  String body = F("window.windsensorTransactionID=");
+  body += String(transactionID);
+  body += F(";");
+  httpServer.sendHeader("Cache-Control", "no-store");
+  httpServer.send(200, "text/javascript", body);
+});
+
+httpServer.on("/MD5.js", []() {
+  httpServer.sendHeader("Cache-Control", "no-cache");
+  httpServer.sendHeader("Content-Encoding", "gzip");
+  httpServer.send_P(200, "text/javascript", (PGM_P)compact_md5_gz, sizeof(compact_md5_gz));
 });
 
 httpServer.on("/tween-min.js", []() {
@@ -156,11 +184,7 @@ httpServer.on("/json2", []() {
 });
 
 // Use no cash because the js was permanently modifyed (transaction ID)
-httpServer.on("/MD5.js", []() {
-  String content = MD5();
-  httpServer.sendHeader("Cache-Control", "no-cache");
-  httpServer.send(200, "text/javascript", content);
-});
+
 
 httpServer.onNotFound([]() {
   String content = Error();

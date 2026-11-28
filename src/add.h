@@ -38,7 +38,7 @@ static const char kDeviceDescriptionTemplate[] PROGMEM = R"json(
     "ip": "yachta.norbert-walter.dnshome.de",
     "manufacturer": "Yachta / Open Boat Projects",
     "hardware": "ESP8266",
-    "firmware": "V1.21",
+    "firmware": "V1.23",
     "location": "Masthead",
     "doc_url": "https://github.com/norbert-walter/Windsensor_Yachta",
     "doc_url_note": "See device documentation for wiring, calibration, and firmware update procedures."
@@ -211,7 +211,7 @@ static const char kDeviceDescriptionTemplate[] PROGMEM = R"json(
       "Migrated from pre-spec format to ADD Specification v1.0 full schema",
       "Rephrased rule 12 to remove reference to non-spec add_control concept",
       "Added device.ip: yachta.norbert-walter.dnshome.de (resolves mandatory field warning)",
-      "Added device.firmware: V1.21 (resolves recommended field warning)"
+      "Added device.firmware: V1.23 (resolves recommended field warning)"
     ],
     "validated_by": [
       {
@@ -249,7 +249,7 @@ static const char kDeviceDescriptionTemplate[] PROGMEM = R"json(
             "resolved": true
           }
         ],
-        "summary": "The ADD document is structurally complete and fully spec-compliant at ADD v1.0. All seven mandatory top-level blocks are present. The autonomy level (Level 1, scores 0/0/0) is correctly declared for a read-mostly wind sensor with only low-risk reversible configuration actions. The rules block contains all mandatory rules at positions 1 and 2, the full standard rule set, and appropriate device-specific rules. Security context is clearly declared. Live functional testing confirmed: /add endpoint delivers valid JSON, /json endpoint responds correctly with full measurement data including wind direction (269.19°), wind speed (0.00 kn), device temperature (27.13°C), NMEA sentences, and device settings. Firmware version V1.21 confirmed. All findings resolved. Document is cleared for production deployment with Claude as the AI client.",
+        "summary": "The ADD document is structurally complete and fully spec-compliant at ADD v1.0. All seven mandatory top-level blocks are present. The autonomy level (Level 1, scores 0/0/0) is correctly declared for a read-mostly wind sensor with only low-risk reversible configuration actions. The rules block contains all mandatory rules at positions 1 and 2, the full standard rule set, and appropriate device-specific rules. Security context is clearly declared. Live functional testing confirmed: /add endpoint delivers valid JSON, /json endpoint responds correctly with full measurement data including wind direction (269.19°), wind speed (0.00 kn), device temperature (27.13°C), NMEA sentences, and device settings. Firmware version V1.23 confirmed. All findings resolved. Document is cleared for production deployment with Claude as the AI client.",
         "capabilities": {
           "classification": "large",
           "ethic_url_usable": true

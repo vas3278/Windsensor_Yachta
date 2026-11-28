@@ -133,7 +133,8 @@ String Settings(int num, String vname[30], String value[30])
    content +=F( "<link rel='stylesheet' type='text/css' href='/css'>");
    content +=F( "<meta http-equiv='content-type' content='text/html; charset=UTF-8'>");
    content +=F( "<meta name=viewport content='width=device-width, initial-scale=1'>");
-   content +=F( "<script src='MD5.js' type='text/javascript'></script>");
+   content +=F( "<script src='/transaction.js' type='text/javascript'></script>");
+    content +=F( "<script src='MD5.js' type='text/javascript'></script>");
    content +=F( " <style>");
   // content += CSS();
    content +=F( "</style>");

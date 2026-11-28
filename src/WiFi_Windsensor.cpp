@@ -53,10 +53,10 @@ configData actconf;         // Actual configuration, Global variable
 #include "FunctionsLib.h"   // Function library
 #include "NMEATelegrams.h"  // Function library for NMEA telegrams
 #include "icon_html.h"      // Favorit icon
-#include "css_html.h"       // CSS cascading style sheets
+// original dynamic builder replaced: "css_html.h"       // CSS cascading style sheets
 #include "steel_html.h"     // JavaScript steelseries_micro.js.gz library
 #include "tween_html.h"     // JavaScript tween-min.js.gz library
-#include "js_html.h"        // JavaScript functions
+// original dynamic builder replaced: "js_html.h"        // JavaScript functions
 #include "main_html.h"      // Main webpage
 #include "settings_html.h"  // Settings webpage
 #include "firmware_html.h"  // Firmware update webpage
@@ -65,7 +65,7 @@ configData actconf;         // Actual configuration, Global variable
 #include "add_html.h"       // ADD JSON as webpage 
 #include "json_html.h"      // JSON webpage
 #include "json2_html.h"     // JSON webpage for Hall sensor signals
-#include "MD5_html.h"       // JavaScript crypt password with MD5
+// original dynamic builder replaced: "MD5_html.h"       // JavaScript crypt password with MD5
 #include "restart_html.h"   // Reset info webpage
 #include "devinfo_html.h"   // Device info webpage
 #include "windv_html.h"     // Wind value webpage
@@ -390,6 +390,7 @@ void setup() {
   DebugPrintln(3, "/update");
   DebugPrintln(3, "");
 
+  #include "compact_web_assets.h"
   #include "ServerPages.h"    // Webserver pages request functions
   
   // Connect to WiFi network

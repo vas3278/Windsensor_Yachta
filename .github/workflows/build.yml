@@ -29,6 +29,9 @@ jobs:
       - name: Clean previous build
         run: rm -rf .pio
 
+      - name: Generate compressed static web assets
+        run: python3 scripts/generate_compact_web.py
+
       - name: Build firmware
         run: pio run -e d1_mini
 
